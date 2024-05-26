@@ -8,6 +8,7 @@ import DashboardHome from "../pages/Dashboard/DashboardHome";
 import AddRecipe from "../pages/Dashboard/AddRecipe";
 import ManageRecipe from "../pages/Dashboard/ManageRecipe";
 import Profile from "../pages/Dashboard/Profile";
+import UpdateRecipe from "../pages/Dashboard/UpdateRecipe";
 
 
 const router = createBrowserRouter([
@@ -47,6 +48,11 @@ const router = createBrowserRouter([
                     {
                         path: '/dashboard/manage-recipe',
                         element: <ManageRecipe></ManageRecipe>
+                    },
+                    {
+                        path:'/dashboard/update/:id',
+                        element: <UpdateRecipe></UpdateRecipe>,
+                        loader: ({params}) => fetch (`${import.meta.env.VITE_API_URL}/recipes/${params.id}`)
                     }
                 ]
             }

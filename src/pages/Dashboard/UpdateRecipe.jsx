@@ -1,15 +1,26 @@
 import axios from "axios";
 import UseAuth from "../../hooks/UseAuth";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 
 
-const AddRecipe = () => {
-    const { user } = UseAuth();
+const UpdateRecipe = () => {
+    const {user} = UseAuth()
 
+    const recipe = useLoaderData()
+    const {
+        _id,
+        image,
+        title,
+        description,
+        ingredients,
+        cost,
+        category
+    } = recipe || {}
     const navigate = useNavigate()
-
-    const handleRecipeSubmit = async e => {
+    console.log(recipe)
+    // update or edit a post
+    const handleUpdateSubmit = async e =>{
         e.preventDefault()
         const form = e.target
         const image = form.image.value
@@ -33,36 +44,38 @@ const AddRecipe = () => {
                 photo: user?.photoURL,
             },
         }
+        
         try {
-            const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/post`, postData)
+            const { data } = await axios.put(`${import.meta.env.VITE_API_URL}/post/${_id}`, postData)
             console.log(data)
-            toast.success('Congrats! Your recipe post successfully.')
-            navigate('/dashboard/manage-recipe')
+            toast.success('Update & save the post successfully')
+            navigate('/manage-my-post')
         } catch (err) {
-            toast.error(err)
             console.log(err)
+            toast.error(err.message)
         }
     }
+
 
     return (
         <div className="flex flex-col items-center justify-center">
             <div className="bg-slate-200 p-4 rounded-md">
                 <div className="bg-purple-300 p-2 flex justify-center items-center rounded-xl">
-                    <h2 className="text-3xl font-bold">Add Your Recipes</h2>
+                    <h2 className="text-3xl font-bold">Update Your Recipes {title}</h2>
                 </div>
-                <form onSubmit={handleRecipeSubmit}>
+                <form onSubmit={handleUpdateSubmit}>
                     <div className="flex gap-3">
                         <label className="form-control w-full max-w-xs">
                             <div className="label">
                                 <span className="label-text">Your food image</span>
                             </div>
-                            <input type="text" name="image" placeholder="image url" className="input input-bordered w-full max-w-xs" />
+                            <input type="text" name="image" defaultValue={image} className="input input-bordered w-full max-w-xs" />
                         </label>
                         <label className="form-control w-full max-w-xs">
                             <div className="label">
                                 <span className="label-text">Your recipe title</span>
                             </div>
-                            <input type="text" placeholder="title" name="title" className="input input-bordered w-full max-w-xs" />
+                            <input type="text" defaultValue={title} name="title" className="input input-bordered w-full max-w-xs" />
                         </label>
                     </div>
                     <div className="flex gap-3">
@@ -70,7 +83,7 @@ const AddRecipe = () => {
                             <div className="label">
                                 <span className="label-text">Your food cost</span>
                             </div>
-                            <input type="number" placeholder="cost" name="cost" className="input input-bordered w-full max-w-xs" />
+                            <input type="number" defaultValue={cost} name="cost" className="input input-bordered w-full max-w-xs" />
                         </label>
                         <label className="form-control w-full max-w-xs">
                             <div className="label">
@@ -79,6 +92,7 @@ const AddRecipe = () => {
                             <select
                                 name='category'
                                 id='category'
+                                defaultValue={category}
                                 className='border p-3 rounded-md w-full max-w-xs'
                             >
                                 <option value='Continental'>Continental</option>
@@ -98,13 +112,13 @@ const AddRecipe = () => {
                             <div className="label">
                                 <span className="label-text">Ingredients</span>
                             </div>
-                            <textarea name="ingredients" className="textarea textarea-bordered h-24" placeholder="Write Ingredients of your recipe"></textarea>
+                            <textarea name="ingredients" className="textarea textarea-bordered h-24" defaultValue={ingredients}></textarea>
                         </label>
                         <label className="form-control">
                             <div className="label">
                                 <span className="label-text">Description</span>
                             </div>
-                            <textarea name="description" className="textarea textarea-bordered h-24" placeholder="Write description of your recipe"></textarea>
+                            <textarea name="description" className="textarea textarea-bordered h-24" defaultValue={description}></textarea>
                         </label>
                     </div>
                     <div className="flex gap-3">
@@ -130,4 +144,4 @@ const AddRecipe = () => {
     );
 };
 
-export default AddRecipe;
+export default UpdateRecipe;
