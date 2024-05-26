@@ -1,7 +1,9 @@
 import { Link, Outlet } from "react-router-dom";
+import UseAuth from "../hooks/UseAuth";
 
 
 const DashboardLayout = () => {
+    const {logout} = UseAuth()
     return (
         <div className="drawer lg:drawer-open">
             <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -32,12 +34,15 @@ const DashboardLayout = () => {
                         <li>
                             <Link to='/dashboard/add-recipe'>Add Recipe</Link>
                         </li>
+                        <li>
+                            <Link to='/write-blog'>Write a blog</Link>
+                        </li>
                     </div>
                     <div className="flex gap-4">
                         <Link to={"/"} className="btn btn-neutral">
                             Home
                         </Link>
-                        <button className="btn btn-error">
+                        <button onClick={logout} className="btn btn-error">
                             Logout
                         </button>
                     </div>

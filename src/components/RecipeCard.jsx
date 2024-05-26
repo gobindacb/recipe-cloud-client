@@ -1,8 +1,9 @@
+import { Link } from "react-router-dom";
 
 
 const RecipeCard = ({ recipe }) => {
 
-    const {image, title, category} = recipe;
+    const {_id, image, title, category} = recipe;
 
 
     return (
@@ -14,7 +15,7 @@ const RecipeCard = ({ recipe }) => {
             </div>
             <div className="px-6 pt-4 pb-2">
                 <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-300">
-                    See Details
+                    <Link to={`/details/${_id}`}>See Details</Link>
                 </button>
             </div>
         </div>

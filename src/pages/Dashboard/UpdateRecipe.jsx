@@ -2,23 +2,15 @@ import axios from "axios";
 import UseAuth from "../../hooks/UseAuth";
 import toast from "react-hot-toast";
 import { useLoaderData, useNavigate } from "react-router-dom";
+import swal from "sweetalert2";
 
 
 const UpdateRecipe = () => {
-    const {user} = UseAuth()
-
     const recipe = useLoaderData()
-    const {
-        _id,
-        image,
-        title,
-        description,
-        ingredients,
-        cost,
-        category
-    } = recipe || {}
-    const navigate = useNavigate()
     console.log(recipe)
+    const {user} = UseAuth()
+    const navigate = useNavigate()
+    
     // update or edit a post
     const handleUpdateSubmit = async e =>{
         e.preventDefault()
@@ -29,6 +21,15 @@ const UpdateRecipe = () => {
         const category = form.category.value
         const ingredients = form.ingredients.value
         const description = form.description.value
+        const confirmation = await swal.fire({
+            title: 'Are you sure to edit?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, update it!'
+        });
 
         const postData = {
             image,
@@ -44,24 +45,25 @@ const UpdateRecipe = () => {
                 photo: user?.photoURL,
             },
         }
-        
-        try {
-            const { data } = await axios.put(`${import.meta.env.VITE_API_URL}/post/${_id}`, postData)
-            console.log(data)
-            toast.success('Update & save the post successfully')
-            navigate('/manage-my-post')
-        } catch (err) {
-            console.log(err)
-            toast.error(err.message)
+        if (confirmation.isConfirmed) {
+            try {
+                const { data } = await axios.put(`${import.meta.env.VITE_API_URL}/recipe/${recipe._id}`, postData)
+                console.log(data)
+                toast.success('Update & save the post successfully')
+                navigate('/dashboard/manage-recipe')
+            } catch (err) {
+                console.log(err)
+                toast.error(err.message)
+            }
         }
+        
     }
-
 
     return (
         <div className="flex flex-col items-center justify-center">
             <div className="bg-slate-200 p-4 rounded-md">
                 <div className="bg-purple-300 p-2 flex justify-center items-center rounded-xl">
-                    <h2 className="text-3xl font-bold">Update Your Recipes {title}</h2>
+                    <h2 className="text-3xl font-bold">Update Your Recipes {recipe.title}</h2>
                 </div>
                 <form onSubmit={handleUpdateSubmit}>
                     <div className="flex gap-3">
@@ -69,13 +71,13 @@ const UpdateRecipe = () => {
                             <div className="label">
                                 <span className="label-text">Your food image</span>
                             </div>
-                            <input type="text" name="image" defaultValue={image} className="input input-bordered w-full max-w-xs" />
+                            <input type="text" name="image" defaultValue={recipe?.image} className="input input-bordered w-full max-w-xs" />
                         </label>
                         <label className="form-control w-full max-w-xs">
                             <div className="label">
                                 <span className="label-text">Your recipe title</span>
                             </div>
-                            <input type="text" defaultValue={title} name="title" className="input input-bordered w-full max-w-xs" />
+                            <input type="text" defaultValue={recipe?.title} name="title" className="input input-bordered w-full max-w-xs" />
                         </label>
                     </div>
                     <div className="flex gap-3">
@@ -83,7 +85,7 @@ const UpdateRecipe = () => {
                             <div className="label">
                                 <span className="label-text">Your food cost</span>
                             </div>
-                            <input type="number" defaultValue={cost} name="cost" className="input input-bordered w-full max-w-xs" />
+                            <input type="number" defaultValue={recipe?.cost} name="cost" className="input input-bordered w-full max-w-xs" />
                         </label>
                         <label className="form-control w-full max-w-xs">
                             <div className="label">
@@ -92,7 +94,7 @@ const UpdateRecipe = () => {
                             <select
                                 name='category'
                                 id='category'
-                                defaultValue={category}
+                                defaultValue={recipe?.category}
                                 className='border p-3 rounded-md w-full max-w-xs'
                             >
                                 <option value='Continental'>Continental</option>
@@ -112,13 +114,13 @@ const UpdateRecipe = () => {
                             <div className="label">
                                 <span className="label-text">Ingredients</span>
                             </div>
-                            <textarea name="ingredients" className="textarea textarea-bordered h-24" defaultValue={ingredients}></textarea>
+                            <textarea name="ingredients" className="textarea textarea-bordered h-24" defaultValue={recipe?.ingredients}></textarea>
                         </label>
                         <label className="form-control">
                             <div className="label">
                                 <span className="label-text">Description</span>
                             </div>
-                            <textarea name="description" className="textarea textarea-bordered h-24" defaultValue={description}></textarea>
+                            <textarea name="description" className="textarea textarea-bordered h-24" defaultValue={recipe?.description}></textarea>
                         </label>
                     </div>
                     <div className="flex gap-3">

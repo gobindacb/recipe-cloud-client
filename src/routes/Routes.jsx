@@ -9,12 +9,17 @@ import AddRecipe from "../pages/Dashboard/AddRecipe";
 import ManageRecipe from "../pages/Dashboard/ManageRecipe";
 import Profile from "../pages/Dashboard/Profile";
 import UpdateRecipe from "../pages/Dashboard/UpdateRecipe";
+import RecipeDetails from "../pages/RecipeDetails";
+import PrivateRoute from "./PrivateRoute";
+import ErrorPage from "../pages/ErrorPage";
+import AllRecipe from "../pages/AllRecipe";
 
 
 const router = createBrowserRouter([
     {
         path: '/',
         element: <Main></Main>,
+        errorElement: <ErrorPage></ErrorPage>,
         children: [
             {
                 index: true,
@@ -30,8 +35,18 @@ const router = createBrowserRouter([
                 element: <Register></Register>
             },
             {
+                path: '/all-recipes',
+                element: <AllRecipe></AllRecipe>
+            },
+            {
+                path: '/details/:id',
+                element: <RecipeDetails></RecipeDetails>,
+                loader: ({params}) => fetch (`${import.meta.env.VITE_API_URL}/recipe/${params.id}`)
+            },
+            {
                 path: '/dashboard',
-                element: (<DashboardLayout></DashboardLayout>),
+                element: (<PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>),
+                errorElement: <ErrorPage></ErrorPage>,
                 children: [
                     {
                         index: true,
@@ -52,7 +67,7 @@ const router = createBrowserRouter([
                     {
                         path:'/dashboard/update/:id',
                         element: <UpdateRecipe></UpdateRecipe>,
-                        loader: ({params}) => fetch (`${import.meta.env.VITE_API_URL}/recipes/${params.id}`)
+                        loader: ({params}) => fetch (`${import.meta.env.VITE_API_URL}/recipe/${params.id}`)
                     }
                 ]
             }

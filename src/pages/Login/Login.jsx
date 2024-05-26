@@ -71,14 +71,14 @@ const Login = () => {
         <div className="hero min-h-screen bg-base-200">
             <Helmet>
                 <title>
-                    Soul-Share | Login
+                    Recipe Cloud | Login
                 </title>
             </Helmet>
             <div className="hero-content flex-col lg:flex-row-reverse gap-2 lg:gap-8">
                 <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100 text-center ">
                     <h2 className="text-5xl mb-6">Log In</h2>
-                    <h1 className="text-3xl lg:text-7xl">Soul Share</h1>
-                    <p>Volunteerism that Touches the Soul</p>
+                    <h1 className="text-3xl lg:text-7xl">Recipe Cloud</h1>
+                    <p>Cook, Share, Inspire</p>
                 </div>
                 <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
                     <form onSubmit={handleSubmit(onSubmit)} className="card-body">

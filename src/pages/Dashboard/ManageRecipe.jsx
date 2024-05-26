@@ -97,7 +97,7 @@ const ManageRecipe = () => {
                                                     <p>{recipe?.cost}</p>
                                                 </td>
                                                 <td className="p-3 flex items-center justify-center flex-col gap-1">
-                                                    <Link to={`/post/${recipe?._id}`} className="btn btn-primary btn-xs"><span>Details</span></Link>
+                                                    <Link to={`/details/${recipe?._id}`} className="btn btn-primary btn-xs"><span>Details</span></Link>
                                                     <Link to={`/dashboard/update/${recipe?._id}`} className="btn btn-accent btn-xs"><span>Edit</span></Link>
                                                     <button onClick={() => handleDelete(recipe?._id)} className="btn btn-secondary btn-xs"><span>Delete</span></button>
                                                 </td>
