@@ -9,10 +9,11 @@ const Navbar = () => {
         <li><Link to='/all-recipes'>All recipes</Link></li>
                     <li>
                         <details>
-                            <summary>Parent</summary>
+                            <summary>About</summary>
                             <ul className="p-2">
-                                <li><a>Submenu 1</a></li>
-                                <li><a>Submenu 2</a></li>
+                                <li><a>Our Team</a></li>
+                                <li><a>Restaurant</a></li>
+                                <li><a>Contact</a></li>
                             </ul>
                         </details>
                     </li>
