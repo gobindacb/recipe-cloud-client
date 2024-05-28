@@ -81,6 +81,7 @@ const AddRecipe = () => {
                                 id='category'
                                 className='border p-3 rounded-md w-full max-w-xs'
                             >
+                                <option value='Veg'>Veg</option>
                                 <option value='Continental'>Continental</option>
                                 <option value='Salad'>Salad</option>
                                 <option value='Pizza'>Pizza</option>

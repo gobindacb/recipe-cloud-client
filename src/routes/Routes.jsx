@@ -13,6 +13,7 @@ import RecipeDetails from "../pages/RecipeDetails";
 import PrivateRoute from "./PrivateRoute";
 import ErrorPage from "../pages/ErrorPage";
 import AllRecipe from "../pages/AllRecipe";
+import Blogs from "../pages/Blogs";
 
 
 const router = createBrowserRouter([
@@ -42,6 +43,11 @@ const router = createBrowserRouter([
                 path: '/details/:id',
                 element: <RecipeDetails></RecipeDetails>,
                 loader: ({params}) => fetch (`${import.meta.env.VITE_API_URL}/recipe/${params.id}`)
+            },
+            {
+                path: '/blogs',
+                element: <Blogs></Blogs>,
+                loader: () => fetch(`${import.meta.env.VITE_API_URL}/blogs`)
             },
             {
                 path: '/dashboard',
